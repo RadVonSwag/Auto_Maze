@@ -11,5 +11,6 @@ public class Main
         System.out.println( "Balls, Man!!!" );
         MazeMakerExample newMaze = new MazeMakerExample();
         newMaze.Maze(15, 15);
+        System.out.println("Man Balls!!!");
     }
 }
