@@ -53,7 +53,7 @@ public class MazeMakerExample2 {
      */
     public static void main(String[] args) {
         // B Stusiak - My 12x12 maze and path
-        n = 12;
+        n = 5;
         makeMaze();
         printMaze();
         printPath();
@@ -91,7 +91,7 @@ public class MazeMakerExample2 {
         lastc = -1;
         //printMaze();
         path = new ArrayList<>();
-        while (numVisited < n*n) { // go until all squares have been visited
+        while ((numVisited < n*n)) { // go until all squares have been visited
             //System.out.println("r = " + Integer.toString(r) + ", c = " + Integer.toString(c));
             if (!visited[r][c]) {
                 visited[r][c] = true;
@@ -147,8 +147,7 @@ public class MazeMakerExample2 {
                     south[r][c] = false;
                 }
             }
-        }
-    
+        }   
     }
     
     private static void printPath() {

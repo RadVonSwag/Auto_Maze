@@ -8,9 +8,15 @@ public class Main
 {
     public static void main( String[] args )
     {
+
+        //Maze Dimensions
+        int dimensions = 4;
+
         System.out.println( "Balls, Man!!!" );
-        MazeMakerExample newMaze = new MazeMakerExample();
-        newMaze.Maze(15, 15);
-        System.out.println("Man Balls!!!");
+        
+        //Create a new maze and print directional path
+        MazeMaker maze = new MazeMaker(dimensions);
+        System.out.println("\n\nMan Balls!!!");
+        System.out.println("NIGGERS! AGAIN!!!");
     }
 }
