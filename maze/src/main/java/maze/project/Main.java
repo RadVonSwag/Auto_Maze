@@ -8,7 +8,6 @@ public class Main
 {
     public static void main( String[] args )
     {
-
         //Maze Dimensions
         int dimensions = 4;
 
@@ -16,7 +15,9 @@ public class Main
         
         //Create a new maze and print directional path
         MazeMaker maze = new MazeMaker(dimensions);
+
+        MazePrinter printer = new MazePrinter(maze.CELL_MATRIX, dimensions);
+        
         System.out.println("\n\nMan Balls!!!");
-        System.out.println("NIGGERS! AGAIN!!!");
     }
 }

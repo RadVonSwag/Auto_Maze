@@ -17,4 +17,10 @@ public class AppTest
     {
         assertTrue( true );
     }
+
+    @Test
+    public void MazePrinterTest() throws InterruptedException
+    {
+        MazePrinter printer = new MazePrinter();
+    }
 }

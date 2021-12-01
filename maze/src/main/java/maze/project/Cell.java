@@ -26,5 +26,4 @@ public class Cell {
 
         return string;
     }
-
 }

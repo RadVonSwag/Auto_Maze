@@ -6,7 +6,7 @@ import java.util.Stack;
 
 public class MazeMaker {
 
-    private int dimensions;
+    public int dimensions;
     private int visitedCount;
     public Cell[][] CELL_MATRIX;
     Random random = new Random();
