@@ -76,24 +76,46 @@ public class MazePrinter extends JFrame {
 
 
         //Path drawing
-         int insideCells = cellSize/2;
+        int xCoord = cellSize/2+cellSize;
+        int yCoord = 40;
          Path2D.Double path = new Path2D.Double();
-         path.moveTo(insideCells, insideCells);
-         path.lineTo(300, 300);
-        LinkedList<Cell> mazePath = maze.getPath();
-         for (int i=0; i < cell_matrix.length; i++)
+         path.moveTo(xCoord, yCoord);
+         //path.lineTo(300, 40);
+        LinkedList<Integer> solvedPath = maze.getSolvedPath();
+        g2.setColor(Color.magenta);
+        //g2.draw(path);
+         for (int i=0; i < solvedPath.size(); i++)
          {
-             for (int j=0; j < cell_matrix.length; j++)
-             {
-                Cell currentCell = cell_matrix[i][j];
-                if (mazePath.contains(currentCell))
+            //North    
+            if (solvedPath.get(i) == 0)
                 {
-                    g2.setColor(Color.magenta);
-                    path.lineTo(currentCell.x % cell_matrix.length * cellSize + insideCells, currentCell.y/cell_matrix.length*cellSize + insideCells);
+                    yCoord = yCoord-25;
+                    path.lineTo(xCoord, yCoord);
                     g2.draw(path);
                 }
+                //East
+            if (solvedPath.get(i) == 1)
+            {
+                xCoord = xCoord+25;
+                path.lineTo(xCoord, yCoord);
+                g2.draw(path);
+            }    
+            //South
+            if (solvedPath.get(i) == 2)
+            {
+                yCoord = yCoord + 25;
+                path.lineTo(xCoord, yCoord);
+                g2.draw(path);
+            }
+            //West
+            if (solvedPath.get(i) == 3)
+            {
+                xCoord = xCoord -25;
+                path.lineTo(xCoord, yCoord);
+                g2.draw(path);
+            }
 
-             }
+
          }
          repaint();
 

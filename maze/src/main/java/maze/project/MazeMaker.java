@@ -11,7 +11,7 @@ public class MazeMaker {
     private int visitedCount;
     public Cell[][] CELL_MATRIX;
     Random random = new Random();
-    public LinkedList<Cell> path = new LinkedList<Cell>();
+    public LinkedList<Integer> solvePath = new LinkedList<Integer>();
 
     MazeMaker(int dimensions) {
         this.dimensions = dimensions;
@@ -53,11 +53,16 @@ public class MazeMaker {
             if (!neighbors.isEmpty()) {
                 // Randomly choose next neighbor
                 int nextDirection = random.nextInt(neighbors.size());
-                switch (neighbors.get(nextDirection)) {
+                nextDirection = neighbors.get(nextDirection);
+                if (CELL_MATRIX[dimensions-1][dimensions-1].visited == false)
+                {
+                    solvePath.add(nextDirection);
+                }
+                switch (nextDirection) {
                     case 0: // North
                         CELL_MATRIX[currentCell.x][currentCell.y - 1].visited = true;
                         currentCell.hasNorthWall = false;
-                        CELL_MATRIX[currentCell.x][currentCell.y-1].hasSouthWall = false;
+                        CELL_MATRIX[currentCell.x][currentCell.y - 1].hasSouthWall = false;
                         currentCell = CELL_MATRIX[currentCell.x][currentCell.y - 1];
                         PATH.push(currentCell);
                         DIRECTIONS.push("N");
@@ -65,7 +70,7 @@ public class MazeMaker {
                     case 1: // East
                         CELL_MATRIX[currentCell.x + 1][currentCell.y].visited = true;
                         currentCell.hasEastWall = false;
-                        CELL_MATRIX[currentCell.x+1][currentCell.y].hasWestWall = false;
+                        CELL_MATRIX[currentCell.x + 1][currentCell.y].hasWestWall = false;
                         currentCell = CELL_MATRIX[currentCell.x + 1][currentCell.y];
                         PATH.push(currentCell);
                         DIRECTIONS.push("E");
@@ -73,7 +78,7 @@ public class MazeMaker {
                     case 2: // South
                         CELL_MATRIX[currentCell.x][currentCell.y + 1].visited = true;
                         currentCell.hasSouthWall = false;
-                        CELL_MATRIX[currentCell.x][currentCell.y+1].hasNorthWall = false;
+                        CELL_MATRIX[currentCell.x][currentCell.y + 1].hasNorthWall = false;
                         currentCell = CELL_MATRIX[currentCell.x][currentCell.y + 1];
                         PATH.push(currentCell);
                         DIRECTIONS.push("S");
@@ -81,7 +86,7 @@ public class MazeMaker {
                     case 3: // West
                         CELL_MATRIX[currentCell.x - 1][currentCell.y].visited = true;
                         currentCell.hasWestWall = false;
-                        CELL_MATRIX[currentCell.x -1][currentCell.y].hasEastWall = false;
+                        CELL_MATRIX[currentCell.x - 1][currentCell.y].hasEastWall = false;
                         currentCell = CELL_MATRIX[currentCell.x - 1][currentCell.y];
                         PATH.push(currentCell);
                         DIRECTIONS.push("W");
@@ -94,30 +99,69 @@ public class MazeMaker {
 
         }
 
+        // To create openings in the maze at the end and beginning
         CELL_MATRIX[0][0].hasWestWall = false;
-        CELL_MATRIX[dimensions-1][dimensions-1].hasEastWall = false;
-        
+        CELL_MATRIX[dimensions - 1][dimensions - 1].hasEastWall = false;
+
+        Stack reversePath = new Stack();
         while (!PATH.isEmpty()) {
-            path.add((Cell)PATH.pop());
+            reversePath.add(PATH.pop());
         }
-        
+
+
         System.out.println("\n");
-        Stack tempDirections = new Stack();
-        while (!DIRECTIONS.isEmpty())
-        {
-            tempDirections.add(DIRECTIONS.pop());
+        Stack reverseDirections = new Stack();
+        while (!DIRECTIONS.isEmpty()) {
+            reverseDirections.add(DIRECTIONS.pop());
         }
-        while (!tempDirections.isEmpty()) {
-            String toPrint2 = (String) tempDirections.pop();
+        while (!reverseDirections.isEmpty()) {
+            String toPrint2 = (String) reverseDirections.pop();
             System.out.printf(toPrint2);
         }
 
     }
+/**
+ * Solves the maze and returns the path in a LinkedList
+ * @return
+ */
+    public LinkedList getSolvedPath() {
+ 
+        
+
+        return solvePath;
+    }
 
 
-    public LinkedList getPath()
+    private void tempCode()
     {
-        return path;
+        Cell currentCell = CELL_MATRIX[0][0];
+        while (currentCell != CELL_MATRIX[dimensions -1][dimensions-1]) {
+                ArrayList<Integer> nextSteps = new ArrayList<Integer>();
+                //Can move north
+                if (currentCell.hasNorthWall == false);
+                {
+                    nextSteps.add(0);
+                }
+                //Can move east
+                if (currentCell.hasEastWall == false)
+                {
+                    nextSteps.add(1);
+                }
+                //Can move south
+                if (currentCell.hasSouthWall == false)
+                {
+                    nextSteps.add(2);
+                }
+                //Can move west
+                if (currentCell.hasSouthWall == false)
+                {
+                    nextSteps.add(3);
+                }
+
+                int nextStep = random.nextInt(nextSteps.size());
+
+
+            }
     }
 
 }

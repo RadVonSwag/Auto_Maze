@@ -9,7 +9,7 @@ public class Main
     public static void main( String[] args )
     {
         //Maze Dimensions
-        int dimensions = 5;
+        int dimensions = 4;
 
         System.out.println( "Balls, Man!!!" );
         
