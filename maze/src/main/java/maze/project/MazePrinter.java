@@ -4,59 +4,98 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
+import java.awt.BasicStroke;
+import java.awt.geom.Path2D;
 
 public class MazePrinter extends JFrame {
 
-    MazePrinter() {
-        JPanel panel = new JPanel();
+    int x1;
+    int x2;
+    int y1;
+    int y2;
+    int cellSize = 25;
+    Cell[][] cell_matrix;
+    Image image;
+    MazeMaker maze;
+
+    MazePrinter(MazeMaker maze) {
+        this.maze = maze;
+        cell_matrix = maze.CELL_MATRIX;
+        int dimensions = 800;
+
         this.setVisible(true);
         this.setTitle("Random Maze Generator");
-        this.setSize(800, 500);
-        this.setLocationRelativeTo(null);
+        this.setLayout(null);
+        this.setSize(dimensions, dimensions);
+        //this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // this.setContentPane(panel);
+        this.setBackground(Color.ORANGE);
 
-        JPanel pan = new JPanel();
-        pan.setBackground(Color.ORANGE);
-        this.setContentPane(pan);
-        
-        
     }
 
-    MazePrinter(Cell[][] maze, int dimensions)
-    {
+    public void paint(Graphics g) {
+        Graphics2D g2 = (Graphics2D)g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setStroke(new BasicStroke(5));
+        g2.setColor(Color.black);
 
-        JPanel panel = new JPanel();
+        for (int i = 0; i < cell_matrix.length; i++) {
+            for (int j = 0; j < cell_matrix.length; j++) {
+                int x = cellSize + i * cellSize;
+                int y = cellSize + j * cellSize;
+                Cell currentCell = cell_matrix[i][j];
 
-        BufferedImage image = new BufferedImage(dimensions, dimensions, BufferedImage.TYPE_INT_RGB);
-        Graphics graphics = image.getGraphics();
-        graphics.setColor(Color.CYAN);
-        graphics.fillRect(0,0, dimensions, dimensions);
-        graphics.setColor(Color.BLACK);
+                // Has North Wall
+                if (currentCell.hasNorthWall == true) {
+                    g2.drawLine(x, y, x + cellSize, y);
+                }
+                // Has East Wall
+                if (currentCell.hasEastWall == true) {
+                    g2.drawLine(x + cellSize, y, x + cellSize, y + cellSize);
+                }
 
-        for (int i =0; i < dimensions; i++)
-        {
-            for (int j = 0; j < dimensions; j++)
-            {
-                Cell currentCell = maze[i][j];
-                if (currentCell.hasNorthWall)
-                {
-                    graphics.drawLine(j * dimensions, i * dimensions , dimensions + j * dimensions, i * dimensions);
+                // Has South Wall
+                if (currentCell.hasSouthWall == true) {
+                    g2.drawLine(x, y+cellSize, x + cellSize, y + cellSize);
+                }
+
+                // Has West Wall
+                if (currentCell.hasWestWall == true) {
+                    g2.drawLine(x, y, x, y + cellSize);
                 }
             }
         }
 
-        graphics.drawLine(300, 350, 300, 350);
-        this.setVisible(true);
-        this.setTitle("Random Maze Generator");
-        this.setLayout(null);
-        this.setSize(600, 600);
-        this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        panel.setBackground(Color.ORANGE);
-        panel.paint(graphics);
-        this.setContentPane(panel);
 
+        //Path drawing
+         int insideCells = cellSize/2;
+         Path2D.Double path = new Path2D.Double();
+         path.moveTo(insideCells, insideCells);
+         path.lineTo(300, 300);
+        LinkedList<Cell> mazePath = maze.getPath();
+         for (int i=0; i < cell_matrix.length; i++)
+         {
+             for (int j=0; j < cell_matrix.length; j++)
+             {
+                Cell currentCell = cell_matrix[i][j];
+                if (mazePath.contains(currentCell))
+                {
+                    g2.setColor(Color.magenta);
+                    path.lineTo(currentCell.x % cell_matrix.length * cellSize + insideCells, currentCell.y/cell_matrix.length*cellSize + insideCells);
+                    g2.draw(path);
+                }
+
+             }
+         }
+         repaint();
 
     }
 
