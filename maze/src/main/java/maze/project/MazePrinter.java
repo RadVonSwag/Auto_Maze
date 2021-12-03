@@ -2,19 +2,30 @@ package maze.project;
 
 import javax.swing.JPanel;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.awt.event.*;
 import java.util.LinkedList;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
 import java.awt.Toolkit;
 import java.awt.BasicStroke;
 import java.awt.geom.Path2D;
 
-public class MazePrinter extends JFrame {
+/**
+ * MazePrinter is responsible for generating a window and displaying the maze once it has been created and solved.
+ * Unfortuneately, due to time constraints and lack of familiarity with GUI tools, It displays the maze and solved path at the same time
+ * There are remnants of attempts to make GUI functions work. I may return to this application and touch up the GUI.
+ */
+public class MazePrinter extends JFrame implements ActionListener {
 
     int x1;
     int x2;
@@ -22,24 +33,39 @@ public class MazePrinter extends JFrame {
     int y2;
     int cellSize = 25;
     Cell[][] cell_matrix;
-    Image image;
+    ImageIcon background;
+    JLabel label;
     MazeMaker maze;
+    JButton solveButton;
 
     MazePrinter(MazeMaker maze) {
+        
         this.maze = maze;
         cell_matrix = maze.CELL_MATRIX;
-        int dimensions = 800;
+        int dimensions = 1200;
 
+        background = new ImageIcon(this.getClass().getResource("background.jpg"));
+        label = new JLabel(background);
+        label.setSize(dimensions, dimensions);
+
+        this.add(label);
         this.setVisible(true);
         this.setTitle("Random Maze Generator");
         this.setLayout(null);
+
         this.setSize(dimensions, dimensions);
         //this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // this.setContentPane(panel);
-        this.setBackground(Color.ORANGE);
+        //this.setBackground(Color.orange);
+
+        solveButton = new JButton("Solve");
+        solveButton.setBounds(100, 100, 800, 100);      
+        this.add(solveButton);
+        solveButton.addActionListener(this);
 
     }
+
 
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
@@ -80,10 +106,8 @@ public class MazePrinter extends JFrame {
         int yCoord = 40;
          Path2D.Double path = new Path2D.Double();
          path.moveTo(xCoord, yCoord);
-         //path.lineTo(300, 40);
-        LinkedList<Integer> solvedPath = maze.getSolvedPath();
+        LinkedList<Integer> solvedPath = maze.getPath();
         g2.setColor(Color.magenta);
-        //g2.draw(path);
          for (int i=0; i < solvedPath.size(); i++)
          {
             //North    
@@ -119,6 +143,13 @@ public class MazePrinter extends JFrame {
          }
          repaint();
 
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

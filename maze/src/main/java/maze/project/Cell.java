@@ -1,7 +1,11 @@
 package maze.project;
 
+/**
+ * Cell class stores data about the individual cells of a maze
+ */
 public class Cell {
-    boolean visited = false;
+    boolean visited = false; // for the maze creation aglorithm
+    boolean traversed = false; //For the solving algorithm
     boolean hasNorthWall = true;
     boolean hasEastWall = true;
     boolean hasSouthWall = true;

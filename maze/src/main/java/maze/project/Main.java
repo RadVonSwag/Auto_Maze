@@ -1,23 +1,22 @@
 package maze.project;
 
+import java.io.IOException;
+
 /**
- * Hello world!
+ * Main class for CS3354 Maze Project
  *
  */
 public class Main 
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws IOException
     {
         //Maze Dimensions
-        int dimensions = 4;
-
-        System.out.println( "Balls, Man!!!" );
+        int dimensions = 32;
         
         //Create a new maze and print directional path
         MazeMaker maze = new MazeMaker(dimensions);
-
         MazePrinter printer = new MazePrinter(maze);
-        
-        System.out.println("\n\nMan Balls!!!");
+        maze.SolvePath();
+
     }
 }
