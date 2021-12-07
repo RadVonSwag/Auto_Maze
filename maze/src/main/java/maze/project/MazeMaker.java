@@ -7,6 +7,8 @@ import java.util.Stack;
 
 /**
  * MazeMaker makes the maze and includes a solve function to solve the maze
+ * 
+ * @author Andrew Estes
  */
 public class MazeMaker {
 
@@ -143,8 +145,7 @@ public class MazeMaker {
         Cell westCell = new Cell();
         Stack cellStack = new Stack();
 
-        while (currentCell != CELL_MATRIX[dimensions-1][dimensions-1])
-        {
+        while (currentCell != CELL_MATRIX[dimensions - 1][dimensions - 1]) {
             cellStack.add(currentCell);
 
             canMoveNorth = false;
@@ -176,41 +177,40 @@ public class MazeMaker {
 
             if ((canMoveNorth == true) && (northCell.traversed == false)) {
                 currentCell.traversed = true;
-                previousCell = (Cell)cellStack.peek();
+                previousCell = (Cell) cellStack.peek();
                 currentCell = northCell;
                 solvedPath.add(0);
                 continue;
-    
+
             }
             if ((canMoveEast == true) && (eastCell.traversed == false)) {
                 currentCell.traversed = true;
-                previousCell = (Cell)cellStack.peek();
+                previousCell = (Cell) cellStack.peek();
                 currentCell = eastCell;
                 solvedPath.add(1);
                 continue;
-    
+
             }
             if ((canMoveSouth == true) && (southCell.traversed == false)) {
                 currentCell.traversed = true;
-                previousCell = (Cell)cellStack.peek();
+                previousCell = (Cell) cellStack.peek();
                 currentCell = southCell;
                 solvedPath.add(2);
                 continue;
-    
+
             }
             if ((canMoveWest == true) && (westCell.traversed == false)) {
                 currentCell.traversed = true;
-                previousCell = (Cell)cellStack.peek();
+                previousCell = (Cell) cellStack.peek();
                 currentCell = westCell;
                 solvedPath.add(3);
                 continue;
-    
-            }
-            else {
+
+            } else {
                 solvedPath.removeLast();
                 currentCell.traversed = true;
                 cellStack.pop();
-                currentCell = (Cell)cellStack.pop();
+                currentCell = (Cell) cellStack.pop();
                 continue;
             }
         }
@@ -221,80 +221,83 @@ public class MazeMaker {
         return solvedPath;
     }
 
-
-    /* private void tempCodeE(Cell currentCell, Cell previousCell)
-    {
-        boolean canMoveNorth = false;
-        boolean canMoveEast = false;
-        boolean canMoveSouth = false;
-        boolean canMoveWest = false;
-        Cell northCell = new Cell();
-        Cell eastCell = new Cell();
-        Cell southCell = new Cell();
-        Cell westCell = new Cell();
-
-        if (currentCell == CELL_MATRIX[dimensions - 1][dimensions - 1]) {
-            currentCell.traversed = true;
-            return solvedPath;
-        }
-
-        if (currentCell.hasNorthWall == false) {
-            canMoveNorth = true;
-            northCell = CELL_MATRIX[currentCell.x][currentCell.y - 1];
-        }
-        if ((currentCell.hasEastWall == false) && (currentCell != CELL_MATRIX[dimensions - 1][dimensions - 1])) {
-            canMoveEast = true;
-            eastCell = CELL_MATRIX[currentCell.x + 1][currentCell.y];
-        }
-        if (currentCell.hasSouthWall == false) {
-            canMoveSouth = true;
-            southCell = CELL_MATRIX[currentCell.x][currentCell.y + 1];
-        }
-        if ((currentCell.hasWestWall == false) && (currentCell != CELL_MATRIX[0][0])) {
-            canMoveWest = true;
-            westCell = CELL_MATRIX[currentCell.x - 1][currentCell.y];
-        }
-
-        if ((canMoveNorth == true) && (northCell.traversed == false)) {
-            currentCell.traversed = true;
-            previousCell = currentCell;
-            currentCell = northCell;
-            solvedPath.add(0);
-            solve(currentCell, previousCell);
-
-        }
-        if ((canMoveEast == true) && (eastCell.traversed == false)) {
-            currentCell.traversed = true;
-            previousCell = currentCell;
-            currentCell = eastCell;
-            solvedPath.add(1);
-            solve(currentCell, previousCell);
-
-        }
-        if ((canMoveSouth == true) && (southCell.traversed == false)) {
-            currentCell.traversed = true;
-            previousCell = currentCell;
-            currentCell = southCell;
-            solvedPath.add(2);
-            solve(currentCell, previousCell);
-
-        }
-        if ((canMoveWest == true) && (westCell.traversed == false)) {
-            currentCell.traversed = true;
-            previousCell = currentCell;
-            currentCell = westCell;
-            solvedPath.add(3);
-            solve(currentCell, previousCell);
-
-        } else if (CELL_MATRIX[dimensions - 1][dimensions - 1].traversed == true) {
-            return solvedPath;
-        } else {
-            currentCell.traversed = true;
-            solvedPath.removeLast();
-            currentCell = previousCell;
-            return solvedPath;
-
-        }
-        return solvedPath;
-    } */
+    /*
+     * private void recursiveSolveAttempt(Cell currentCell, Cell previousCell)
+     * {
+     * boolean canMoveNorth = false;
+     * boolean canMoveEast = false;
+     * boolean canMoveSouth = false;
+     * boolean canMoveWest = false;
+     * Cell northCell = new Cell();
+     * Cell eastCell = new Cell();
+     * Cell southCell = new Cell();
+     * Cell westCell = new Cell();
+     * 
+     * if (currentCell == CELL_MATRIX[dimensions - 1][dimensions - 1]) {
+     * currentCell.traversed = true;
+     * return solvedPath;
+     * }
+     * 
+     * if (currentCell.hasNorthWall == false) {
+     * canMoveNorth = true;
+     * northCell = CELL_MATRIX[currentCell.x][currentCell.y - 1];
+     * }
+     * if ((currentCell.hasEastWall == false) && (currentCell !=
+     * CELL_MATRIX[dimensions - 1][dimensions - 1])) {
+     * canMoveEast = true;
+     * eastCell = CELL_MATRIX[currentCell.x + 1][currentCell.y];
+     * }
+     * if (currentCell.hasSouthWall == false) {
+     * canMoveSouth = true;
+     * southCell = CELL_MATRIX[currentCell.x][currentCell.y + 1];
+     * }
+     * if ((currentCell.hasWestWall == false) && (currentCell != CELL_MATRIX[0][0]))
+     * {
+     * canMoveWest = true;
+     * westCell = CELL_MATRIX[currentCell.x - 1][currentCell.y];
+     * }
+     * 
+     * if ((canMoveNorth == true) && (northCell.traversed == false)) {
+     * currentCell.traversed = true;
+     * previousCell = currentCell;
+     * currentCell = northCell;
+     * solvedPath.add(0);
+     * solve(currentCell, previousCell);
+     * 
+     * }
+     * if ((canMoveEast == true) && (eastCell.traversed == false)) {
+     * currentCell.traversed = true;
+     * previousCell = currentCell;
+     * currentCell = eastCell;
+     * solvedPath.add(1);
+     * solve(currentCell, previousCell);
+     * 
+     * }
+     * if ((canMoveSouth == true) && (southCell.traversed == false)) {
+     * currentCell.traversed = true;
+     * previousCell = currentCell;
+     * currentCell = southCell;
+     * solvedPath.add(2);
+     * solve(currentCell, previousCell);
+     * 
+     * }
+     * if ((canMoveWest == true) && (westCell.traversed == false)) {
+     * currentCell.traversed = true;
+     * previousCell = currentCell;
+     * currentCell = westCell;
+     * solvedPath.add(3);
+     * solve(currentCell, previousCell);
+     * 
+     * } else if (CELL_MATRIX[dimensions - 1][dimensions - 1].traversed == true) {
+     * return solvedPath;
+     * } else {
+     * currentCell.traversed = true;
+     * solvedPath.removeLast();
+     * currentCell = previousCell;
+     * return solvedPath;
+     * 
+     * }
+     * return solvedPath;
+     * }
+     */
 }
