@@ -26,7 +26,6 @@ public class Cell {
 
     public String toString() {
         String string = "[" + x + ", " + y + "], ";
-
         return string;
     }
 }
