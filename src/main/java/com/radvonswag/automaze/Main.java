@@ -1,4 +1,6 @@
-package maze.project;
+package com.radvonswag.automaze;
+
+import com.radvonswag.automaze.ui.MazeFrame;
 
 import java.io.IOException;
 

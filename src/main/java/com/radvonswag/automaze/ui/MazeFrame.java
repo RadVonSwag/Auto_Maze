@@ -1,4 +1,7 @@
-package maze.project;
+package com.radvonswag.automaze.ui;
+
+import com.radvonswag.automaze.model.Cell;
+import com.radvonswag.automaze.service.MazeMaker;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -258,6 +261,7 @@ public class MazeFrame extends javax.swing.JFrame {
             return;
         }
         maze = new MazeMaker(dimensions);
+        maze.createMazeWalls();
         cell_matrix = maze.CELL_MATRIX;
         Graphics2D g2 = (Graphics2D) g;
 
@@ -277,21 +281,21 @@ public class MazeFrame extends javax.swing.JFrame {
                 Cell currentCell = cell_matrix[i][j];
 
                 // Has North Wall
-                if (currentCell.hasNorthWall == true) {
+                if (currentCell.hasNorthWall() == true) {
                     g2.drawLine(x, y, x + cellSize, y);
                 }
                 // Has East Wall
-                if (currentCell.hasEastWall == true) {
+                if (currentCell.hasEastWall() == true) {
                     g2.drawLine(x + cellSize, y, x + cellSize, y + cellSize);
                 }
 
                 // Has South Wall
-                if (currentCell.hasSouthWall == true) {
+                if (currentCell.hasSouthWall() == true) {
                     g2.drawLine(x, y + cellSize, x + cellSize, y + cellSize);
                 }
 
                 // Has West Wall
-                if (currentCell.hasWestWall == true) {
+                if (currentCell.hasWestWall() == true) {
                     g2.drawLine(x, y, x, y + cellSize);
                 }
             }
@@ -324,8 +328,6 @@ public class MazeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_colorChooserPathActionPerformed
 
     private void buttonSolveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSolveActionPerformed
-        //Solve the maze
-        maze.SolvePath();
 
         //Draw the maze
         Graphics2D g2 = (Graphics2D) g;
@@ -333,7 +335,7 @@ public class MazeFrame extends javax.swing.JFrame {
         int yCoord = 40;
         Path2D.Double path = new Path2D.Double();
         path.moveTo(xCoord, yCoord);
-        LinkedList<Integer> solvedPath = maze.getPath();
+        LinkedList<Integer> solvedPath = maze.solveMaze(); // solves maze at this step.
         g2.setColor(pathColor);
         for (int i = 0; i < solvedPath.size(); i++) {
             // North
